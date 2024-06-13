@@ -1,0 +1,12 @@
+version: 2
+
+sources:
+  - name: SNOWFLAKE_DB_OPENFLIGHTS
+    database: A_VIONCITOS_PRO_BRONZE_DB
+    tables:
+      - name: airlines
+      - name: airports
+      - name: countries
+      - name: plane_models
+      - name: routes
+      - name: airline_iata
