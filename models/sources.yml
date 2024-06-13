@@ -1,0 +1,12 @@
+version: 2
+
+sources:
+  - name: openflights
+    database: alumno22_final_bronze
+    tables:
+      - name: airlines
+      - name: airports
+      - name: countries
+      - name: plane_models
+      - name: routes
+      - name: airline_iata

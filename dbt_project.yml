@@ -36,5 +36,27 @@ clean-targets:         # directories to be removed by `dbt clean`
 # using the `{{ config(...) }}` macro.
 
 models:
-  avioncitos:
+  +transient: false
+  curso:
     # Applies to all files under models/example/
+
+    staging:
+      +materialized: incremental
+      +database: "{{ env_var('DBT_ENVIRONMENTS') }}_SILVER_DB"
+      openskyes:
+        +schema: SNOWFLAKE_DB_OPENFLIGHTS
+ 
+      
+    marts:
+      +materialized: table
+      +database: "{{ env_var('DBT_ENVIRONMENTS') }}_GOLD_DB"
+      core:
+        +schema: core
+seeds:
+  +schema: seed_data
+  +database: "{{ env_var('DBT_ENVIRONMENTS') }}_BRONZE_DB"        
+snapshots:
+  +transient: false
+  +target_database: "{{ env_var('DBT_ENVIRONMENTS') }}_SILVER_DB"
+  +target_schema: snapshots
+
