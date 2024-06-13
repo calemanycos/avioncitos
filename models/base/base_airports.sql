@@ -2,7 +2,7 @@
 
 with source as (
 
-    select * from {{ source('openflights', 'airports') }}
+    select * from {{ source('SNOWFLAKE_DB_OPENFLIGHTS', 'airports') }}
 
 ),
 
@@ -22,9 +22,12 @@ renamed as (
         zona_horaria,
         tz_timezone,
         type,
-        source
-
+        source,
+        _fivetran_synced,
+        _fivetran_deleted
+ 
     from source
+   WHERE _fivetran_deleted = FALSE
 
 )
 

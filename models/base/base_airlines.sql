@@ -2,7 +2,7 @@
 
 with source as (
 
-    select * from {{ source('openflights', 'airline_iata') }}
+    select * from {{ source('SNOWFLAKE_DB_OPENFLIGHTS', 'airline_iata') }}
 
 ),
 
@@ -10,9 +10,12 @@ renamed as (
 
     select
         code as airline_iata,
-        description
-
+        description,
+        _fivetran_synced,
+        _fivetran_deleted
+ 
     from source
+   WHERE _fivetran_deleted = FALSE
 
 )
 

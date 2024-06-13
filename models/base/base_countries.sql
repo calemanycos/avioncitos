@@ -1,20 +1,20 @@
-{{ config(materialized='table') }}
+{{ config(materialized="table") }}
 
-with source as (
+with
+    source as (select * from {{ source("SNOWFLAKE_DB_OPENFLIGHTS", "countries") }}),
 
-    select * from {{ source('openflights', 'countries') }}
+    renamed as (
 
-),
+        select
+            {{ dbt_utils.generate_surrogate_key(["code"]) }} as country_id,
+            code as iata_country,
+            description,
+            _fivetran_synced,
+            _fivetran_deleted
 
-renamed as (
+        from source
+        where _fivetran_deleted = false
+    )
 
-    select
-    {{ dbt_utils.generate_surrogate_key(['code']) }} as country_id,
-    code as IATA_COUNTRY,
-    description
-
-    from source
-
-)
-
-select * from renamed
+select *
+from renamed

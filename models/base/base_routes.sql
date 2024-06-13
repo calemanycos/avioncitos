@@ -2,7 +2,7 @@
 
 with source as (
 
-    select * from {{ source('openflights', 'routes') }}
+    select * from {{ source('SNOWFLAKE_DB_OPENFLIGHTS', 'routes') }}
 
 ),
 
@@ -26,10 +26,12 @@ renamed as (
         aircraft_type,
         year,
         quarter,
-        month
-
+        month,
+        _fivetran_synced,
+        _fivetran_deleted
+ 
     from source
-
+   WHERE _fivetran_deleted = FALSE
 )
 
 select * from renamed

@@ -1,8 +1,8 @@
 version: 2
 
 sources:
-  - name: openflights
-    database: alumno22_final_bronze
+  - name: SNOWFLAKE_DB_OPENFLIGHTS
+    database: A_VIONCITOS_PRO_BRONZE_DB
     tables:
       - name: airlines
       - name: airports
