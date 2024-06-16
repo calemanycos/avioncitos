@@ -1,0 +1,231 @@
+version: 2
+
+models:
+  - name: stg_airlines
+    description: "This model contains information about different airlines."
+    columns:
+      - name: airline_id
+        data_type: varchar
+        description: "Unique identifier for the airline."
+
+      - name: airline_iata
+        data_type: varchar
+        description: "IATA code for the airline."
+
+      - name: airline_name
+        data_type: varchar
+        description: "Name of the airline."
+
+      - name: _fivetran_synced
+        data_type: timestamp_ntz
+        description: "Timestamp when the data was last synced by Fivetran."
+
+      - name: _fivetran_deleted
+        data_type: boolean
+        description: "Indicator of whether the data has been deleted."
+
+  - name: stg_airports
+    description: "This model contains information about different airports."
+    columns:
+      - name: airport_id
+        data_type: varchar
+        description: "Unique identifier for the airport."
+
+      - name: airport_name
+        data_type: varchar
+        description: "Name of the airport."
+
+      - name: city
+        data_type: varchar
+        description: "City where the airport is located."
+
+      - name: country_name
+        data_type: varchar
+        description: "Country where the airport is located."
+
+      - name: airport_iata
+        data_type: varchar
+        description: "IATA code for the airport."
+
+      - name: airport_icao
+        data_type: varchar
+        description: "ICAO code for the airport."
+
+      - name: latitude
+        data_type: float
+        description: "Latitude of the airport's location."
+
+      - name: longitude
+        data_type: float
+        description: "Longitude of the airport's location."
+
+      - name: altitude_ft
+        data_type: number
+        description: "Altitude of the airport in feet."
+
+      - name: hours_utc_offset
+        data_type: number
+        description: "UTC offset of the airport's time zone in hours."
+
+      - name: zona_horaria
+        data_type: varchar
+        description: "Time zone of the airport."
+
+      - name: tz_timezone
+        data_type: varchar
+        description: "Time zone of the airport in tz format."
+
+      - name: type
+        data_type: varchar
+        description: "Type of airport (e.g. international, domestic)."
+
+      - name: source
+        data_type: varchar
+        description: "Source of the airport data."
+
+      - name: _fivetran_synced
+        data_type: timestamp_ntz
+        description: "Timestamp when the data was last synced by Fivetran."
+
+      - name: _fivetran_deleted
+        data_type: boolean
+        description: "Indicator of whether the data has been deleted."
+
+  - name: stg_countries
+    description: "This model contains information about different countries."
+    columns:
+      - name: country_id
+        data_type: varchar
+        description: "Unique identifier for the country."
+
+      - name: iata_country
+        data_type: varchar
+        description: "IATA code for the country."
+
+      - name: country_name
+        data_type: varchar
+        description: "Name of the country."
+
+      - name: _fivetran_synced
+        data_type: timestamp_ntz
+        description: "Timestamp when the data was last synced by Fivetran."
+
+      - name: _fivetran_deleted
+        data_type: boolean
+        description: "Indicator of whether the data has been deleted."
+
+  - name: stg_localization
+    description: "This model contains information about airport localization."
+    columns:
+      - name: airport_id
+        data_type: varchar
+        description: "Unique identifier for the airport."
+
+      - name: airport_iata
+        data_type: varchar
+        description: "IATA code for the airport."
+
+      - name: airport_icao
+        data_type: varchar
+        description: "ICAO code for the airport."
+
+      - name: airport_name
+        data_type: varchar
+        description: "Name of the airport."
+
+      - name: airport_city
+        data_type: varchar
+        description: "City where the airport is located."
+
+      - name: country_id
+        data_type: varchar
+        description: "Unique identifier for the country."
+
+      - name: country_iata
+        data_type: varchar
+        description: "IATA code for the country."
+
+      - name: country_name
+        data_type: varchar
+        description: "Name of the country."
+
+  - name: stg_routes
+    description: "This model contains information about different routes flown by airlines."
+    columns:
+      - name: route_id
+        data_type: varchar
+        description: "Unique identifier for the route."
+        tests:
+          - unique
+
+      - name: airline_iata
+        data_type: varchar
+        description: "IATA code of the airline operating the route."
+
+      - name: origin_airport_iata
+        data_type: varchar
+        description: "IATA code of the origin airport."
+
+      - name: dest_airport_iata
+        data_type: varchar
+        description: "IATA code of the destination airport."
+
+      - name: aircraft_type
+        data_type: number
+        description: "Type of aircraft used on the route."
+
+      - name: year
+        data_type: number
+        description: "Year the route was operated."
+
+      - name: quarter
+        data_type: number
+        description: "Quarter the route was operated."
+
+      - name: month
+        data_type: number
+        description: "Month the route was operated."
+
+      - name: seats
+        data_type: number
+        description: "Number of seats available on the route."
+
+      - name: passengers
+        data_type: number
+        description: "Number of passengers on the route."
+
+      - name: distance
+        data_type: number
+        description: "Distance of the route."
+
+      - name: airline_id
+        data_type: varchar
+        description: "Unique identifier for the airline."
+
+      - name: origin_airport_id
+        data_type: varchar
+        description: "Unique identifier for the origin airport."
+
+      - name: dest_airport_id
+        data_type: varchar
+        description: "Unique identifier for the destination airport."
+
+      - name: origin_country_id
+        data_type: varchar
+        description: "Unique identifier for the origin country."
+
+      - name: dest_country_id
+        data_type: varchar
+        description: "Unique identifier for the destination country."
+
+      - name: plane_model_id
+        data_type: varchar
+        description: "Unique identifier for the aircraft model."
+
+      - name: _fivetran_synced
+        data_type: timestamp_tz
+        description: "Timestamp when the data was last synced by Fivetran."
+
+      - name: _fivetran_deleted
+        data_type: boolean
+        description: "Indicator of whether the data has been deleted."

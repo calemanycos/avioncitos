@@ -1,0 +1,265 @@
+version: 2
+
+models:
+  - name: base_airlines
+    description: "This model contains information about different airlines."
+    columns:
+      - name: airline_id
+        data_type: varchar
+        description: "Unique identifier for the airline."
+        tests:
+          - unique
+          - not_null
+
+      - name: airline_iata
+        data_type: varchar
+        description: "IATA code for the airline."
+        tests:
+          - not_null
+
+      - name: airline_name
+        data_type: varchar
+        description: "Name of the airline."
+        tests:
+          - not_null
+
+      - name: _fivetran_synced
+        data_type: timestamp_ntz
+        description: "Timestamp when the data was last synced by Fivetran."
+        tests:
+          - not_null
+
+      - name: _fivetran_deleted
+        data_type: boolean
+        description: "Indicator of whether the data has been deleted."
+        tests:
+          - not_null
+
+  - name: base_airports
+    description: "This model contains information about different airports."
+    columns:
+      - name: airport_id
+        data_type: varchar
+        description: "Unique identifier for the airport."
+        tests:
+          - unique
+          - not_null
+
+      - name: airport_name
+        data_type: varchar
+        description: "Name of the airport."
+        tests:
+          - not_null
+
+      - name: city
+        data_type: varchar
+        description: "City where the airport is located."
+        tests:
+          - not_null
+
+      - name: country_name
+        data_type: varchar
+        description: "Country where the airport is located."
+        tests:
+          - not_null
+
+      - name: airport_iata
+        data_type: varchar
+        description: "IATA code for the airport."
+        tests:
+          - not_null
+
+      - name: airport_icao
+        data_type: varchar
+        description: "ICAO code for the airport."
+        tests:
+          - not_null
+
+      - name: latitude
+        data_type: float
+        description: "Latitude of the airport's location."
+        tests:
+          - not_null
+
+      - name: longitude
+        data_type: float
+        description: "Longitude of the airport's location."
+        tests:
+          - not_null
+
+      - name: altitude_ft
+        data_type: number
+        description: "Altitude of the airport in feet."
+        tests:
+          - not_null
+
+      - name: hours_utc_offset
+        data_type: number
+        description: "UTC offset of the airport's time zone in hours."
+
+      - name: zona_horaria
+        data_type: varchar
+        description: "Time zone of the airport."
+
+
+      - name: tz_timezone
+        data_type: varchar
+        description: "Time zone of the airport in tz format."
+
+      - name: type
+        data_type: varchar
+        description: "Type of airport (e.g. international, domestic)."
+        tests:
+          - not_null
+
+      - name: source
+        data_type: varchar
+        description: "Source of the airport data."
+        tests:
+          - not_null
+
+      - name: _fivetran_synced
+        data_type: timestamp_ntz
+        description: "Timestamp when the data was last synced by Fivetran."
+        tests:
+          - not_null
+
+      - name: _fivetran_deleted
+        data_type: boolean
+        description: "Indicator of whether the data has been deleted."
+        tests:
+          - not_null
+
+  - name: base_countries
+    description: "This model contains information about different countries."
+    columns:
+      - name: country_id
+        data_type: varchar
+        description: "Unique identifier for the country."
+        tests:
+          - unique
+          - not_null
+
+      - name: iata_country
+        data_type: varchar
+        description: "IATA code for the country."
+        tests:
+          - not_null
+
+      - name: country_name
+        data_type: varchar
+        description: "Name of the country."
+        tests:
+          - not_null
+
+      - name: _fivetran_synced
+        data_type: timestamp_ntz
+        description: "Timestamp when the data was last synced by Fivetran."
+        tests:
+          - not_null
+
+      - name: _fivetran_deleted
+        data_type: boolean
+        description: "Indicator of whether the data has been deleted."
+        tests:
+          - not_null
+
+  - name: base_plane_models
+    description: "This model contains information about different plane models."
+    columns:
+      - name: plane_model_id
+        data_type: varchar
+        description: "Unique identifier for the plane model."
+        tests:
+          - unique
+          - not_null
+
+      - name: code
+        data_type: number
+        description: "Code for the plane model."
+        tests:
+          - not_null
+
+      - name: description
+        data_type: varchar
+        description: "Description of the plane model."
+        tests:
+          - not_null
+
+      - name: _fivetran_synced
+        data_type: timestamp_tz
+        description: "Timestamp when the data was last synced by Fivetran."
+        tests:
+          - not_null
+
+      - name: _fivetran_deleted
+        data_type: boolean
+        description: "Indicator of whether the data has been deleted."
+        tests:
+          - not_null
+
+  - name: base_routes
+    description: "This model contains information about different routes flown by airlines."
+    columns:
+      - name: route_id
+        data_type: varchar
+        description: "Unique identifier for the route."
+        tests:
+          - not_null
+          - unique 
+      - name: seats
+        data_type: number
+        description: "Number of seats available on the route."
+        tests:
+          - not_null
+
+      - name: passengers
+        data_type: number
+        description: "Number of passengers on the route."
+        tests:
+          - not_null
+
+      - name: distance
+        data_type: number
+        description: "Distance of the route."
+        tests:
+          - not_null
+      - name: airline_iata
+        data_type: varchar
+        description: "IATA code of the airline operating the route."
+        tests:
+          - not_null
+
+      - name: airline_name
+        data_type: varchar
+        description: "Name of the airline operating the route."
+
+      - name: origin_airport_iata
+        data_type: varchar
+        description: "IATA code of the origin airport."
+        tests:
+          - not_null
+
+      - name: origin_city_name
+        data_type: varchar
+        description: "Name of the origin city."
+        tests:
+          - not_null
+
+      - name: origin_country_iata
+        data_type: varchar
+        description: "IATA code of the origin country."
+        tests:
+          - not_null
+
+      - name: origin_country_name
+        data_type: varchar
+        description: "Name of the origin country."
+        tests:
+          - not_null
+
+      - name: dest_airport_iata
+        data_type: varchar
+        description: "IATA code of the destination airport."
+        tests: 
+          - not_null
