@@ -1,23 +1,21 @@
-{{ config(materialized='table') }}
+{{ config(materialized="table") }}
 
-with source as (
+with
+    source as (select * from {{ source("SNOWFLAKE_DB_OPENFLIGHTS", "plane_models") }}),
 
-    select * from {{ source('SNOWFLAKE_DB_OPENFLIGHTS', 'plane_models') }}
+    renamed as (
 
-),
+        select
+            {{ dbt_utils.generate_surrogate_key(["code","description"]) }} as plane_model_id,
+            code,
+            description,
+            _fivetran_synced,
+            _fivetran_deleted
 
-renamed as (
+        from source
+        where _fivetran_deleted = false
 
-    select
-    {{ dbt_utils.generate_surrogate_key(["code"]) }} as plane_model_id,
-        code,
-        description,
-        _fivetran_synced,
-        _fivetran_deleted
- 
-    from source
-   WHERE _fivetran_deleted = FALSE
+    )
 
-)
-
-select * from renamed
+select *
+from renamed
