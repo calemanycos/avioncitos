@@ -1,0 +1,19 @@
+Dimensions:
+
+stg_airlines (Airline dimension)
+Attributes: airline_iata, airline_name,...
+stg_airports (Airport dimension)
+Attributes: airport_iata, airport_name,...
+stg_localization (Localization dimension)
+Attributes: localization_id, city, region, country, latitude, longitude,...
+Fact Table:
+
+stg_routes (Route fact table)
+Attributes: route_id, airline_iata, airport_iata, localization_id, seats, passengers, distance,...
+Relationships:
+
+stg_routes -> stg_airlines (foreign key: airline_iata)
+stg_routes -> stg_airports (foreign key: airport_iata)
+stg_routes -> stg_localization (foreign key: localization_id)
+stg_airports -> stg_localization (foreign key: localization_id)
+This revised model uses the stg_localization dimension to provide a more granular level of detail for analyzing routes by airport location. The stg_routes fact table has foreign keys to the stg_airlines, stg_airports, and stg_localization dimensions, allowing for analysis of routes by airline, airport, and localization (city, region, country).

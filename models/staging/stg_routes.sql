@@ -1,4 +1,6 @@
-{{ config(materialized="table") }}
+{{ config(materialized="incremental",  unique_key=['route_id'],
+        tags=['incremental']
+ ) }}
 
 with
     source as (select * from {{ ref("base_routes") }}),
@@ -40,10 +42,10 @@ with
             on source.dest_airport_iata = dest_airport.airport_iata
         join
             {{ ref("base_countries") }} origin_country
-            on source.origin_country_iata = origin_country.iata_country
+            on source.origin_country_iata = origin_country.country_iata
         join
             {{ ref("base_countries") }} dest_country
-            on source.dest_country_iata = dest_country.iata_country
+            on source.dest_country_iata = dest_country.country_iata
         join
             {{ ref("base_plane_models") }} plane_model
             on source.aircraft_type = plane_model.code
@@ -60,4 +62,7 @@ with
 select *
 from deduplicated
 where row_num = 1
+{% if is_incremental() %}
+  and _fivetran_synced > (select max(_fivetran_synced) from {{ this }})
+{% endif %}
 order by route_id

@@ -1,4 +1,6 @@
-{{ config(materialized="table") }}
+{{ config(materialized="incremental",  unique_key=['plane_model_id'],
+        tags=['incremental']
+ ) }}
 
 with
     source as (select * from {{ source("SNOWFLAKE_DB_OPENFLIGHTS", "plane_models") }}),
@@ -19,3 +21,8 @@ with
 
 select *
 from renamed
+{% if is_incremental() %}
+
+  where _fivetran_synced > (select max(_fivetran_synced) from {{ this }})
+
+{% endif %}

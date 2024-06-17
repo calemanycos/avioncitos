@@ -1,4 +1,6 @@
-{{ config(materialized="table") }}
+{{ config(materialized="incremental",  unique_key=['airport_id'],
+        tags=['incremental']
+) }}
 
 with
     base as (select * from {{ ref("base_airports") }}),
@@ -7,7 +9,7 @@ with
         select
             airport_id,
             airport_name,
-            city,
+            airport_city,
             country_name,
             airport_iata,
             airport_icao,
@@ -27,3 +29,8 @@ with
 
 select *
 from transformed
+{% if is_incremental() %}
+
+  where _fivetran_synced > (select max(_fivetran_synced) from {{ this }})
+
+{% endif %}

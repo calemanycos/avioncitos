@@ -34,30 +34,36 @@ clean-targets: # directories to be removed by `dbt clean`
 # using the `{{ config(...) }}` macro.
 
 models:
-  +transient: false
-  curso:
+  avioncitos:
     # Applies to all files under models/example/
-
     base:
       +materialized: incremental
-      +database: "{{ env_var('DBT_ENVIRONMENTS') }}_SILVER_DB"
-      +schema: SNOWFLAKE_DB_OPENFLIGHTS
+      +database: "{{ env_var('DBT_ENVIRONMENTS') }}SILVER_DB"
+      +schema: base
 
     staging:
       +materialized: incremental
-      +database: "{{ env_var('DBT_ENVIRONMENTS') }}_SILVER_DB"
-      +schema: SNOWFLAKE_DB_OPENFLIGHTS
+      +database: "{{ env_var('DBT_ENVIRONMENTS') }}SILVER_DB"
+      +schema: stg
 
+    # Configuración específica para 'marts'
     marts:
-      +materialized: table
-      +database: "{{ env_var('DBT_ENVIRONMENTS') }}_GOLD_DB"
-    core:
-      +schema: core
-      +database: "{{ env_var('DBT_ENVIRONMENTS') }}_GOLD_DB"
+      +materialized: incremental
+      +database: "{{ env_var('DBT_ENVIRONMENTS') }}GOLD_DB"
+
+      # Configuración específica para 'core'
+      core:
+        +schema: core
+        +database: "{{ env_var('DBT_ENVIRONMENTS') }}GOLD_DB"
+        int:
+          +schema: intermediate
+          +database: "{{ env_var('DBT_ENVIRONMENTS') }}GOLD_DB"
+
 seeds:
   +schema: seed_data
-  +database: "{{ env_var('DBT_ENVIRONMENTS') }}_BRONZE_DB"
+  +database: "{{ env_var('DBT_ENVIRONMENTS') }}BRONZE_DB"
+
 snapshots:
   +transient: false
-  +target_database: "{{ env_var('DBT_ENVIRONMENTS') }}_SILVER_DB"
+  +target_database: "{{ env_var('DBT_ENVIRONMENTS') }}SILVER_DB"
   +target_schema: snapshots

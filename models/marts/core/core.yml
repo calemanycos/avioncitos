@@ -1,0 +1,284 @@
+version: 2
+models:
+  - name: dim_plane_models
+    config:
+      materialized: table
+    columns:
+      - name: code
+        description: "Unique identifier for the plane model"
+      - name: description
+        description: "Description of the plane model"
+      - name: avg_capacity_filled_pct
+        description: "Average percentage of seats filled for each plane model"
+        data_type: float
+
+  - name: dim_airlines
+    description: "Airline dimension table"
+    columns:
+      - name: airline_id
+        data_type: varchar
+        description: "Unique identifier for the airline"
+        tests:
+          - not_null
+          - unique
+
+      - name: airline_iata
+        data_type: varchar
+        description: "Airline IATA code"
+      - name: airline_name
+        data_type: varchar
+        description: "Airline name"
+      - name: _fivetran_synced
+        data_type: timestamp_ntz
+        description: "Timestamp of last sync from Fivetran"
+      - name: _fivetran_deleted
+        data_type: boolean
+        description: "Flag indicating if record was deleted from Fivetran"
+
+  - name: dim_airports
+    description: "Airport dimension table"
+    columns:
+      - name: airport_id
+        data_type: varchar
+        description: "Unique identifier for the airport"
+        tests:
+          - not_null
+          - unique
+      - name: localization_id
+        data_type: varchar
+        description: "Localization ID for the airport"
+      - name: airport_location
+        data_type: varchar
+        description: "Airport location"
+      - name: airport_iata
+        data_type: varchar
+        description: "Airport IATA code"
+      - name: airport_icao
+        data_type: varchar
+        description: "Airport ICAO code"
+      - name: airport_name
+        data_type: varchar
+        description: "Airport name"
+      - name: source
+        data_type: varchar
+        description: "Source of airport data"
+      - name: _fivetran_synced
+        data_type: timestamp_ntz
+        description: "Timestamp of last sync from Fivetran"
+      - name: _fivetran_deleted
+        data_type: boolean
+        description: "Flag indicating if record was deleted from Fivetran"
+
+  - name: dim_localization
+    description: "Localization dimension table"
+    columns:
+      - name: localization_id
+        data_type: varchar
+        description: "Unique identifier for the localization"
+        tests:
+          - not_null
+          - unique
+      - name: airport_id
+        data_type: varchar
+        description: "Airport ID associated with the localization"
+      - name: airport_iata
+        data_type: varchar
+        description: "Airport IATA code associated with the localization"
+      - name: airport_icao
+        data_type: varchar
+        description: "Airport ICAO code associated with the localization"
+      - name: airport_name
+        data_type: varchar
+        description: "Airport name associated with the localization"
+      - name: airport_city
+        data_type: varchar
+        description: "Airport city associated with the localization"
+      - name: country_iata
+        data_type: varchar
+        description: "Country IATA code associated with the localization"
+      - name: country_name
+        data_type: varchar
+        description: "Country name associated with the localization"
+      - name: country_id
+        data_type: varchar
+        description: "Country ID associated with the localization"
+        tests:
+          - not_null
+      - name: latitude
+        data_type: float
+        description: "Latitude of the localization"
+      - name: longitude
+        data_type: float
+        description: "Longitude of the localization"
+      - name: altitude_ft
+        data_type: number
+        description: "Altitude in feet of the localization"
+      - name: hours_utc_offset
+        data_type: number
+        description: "Hours UTC offset of the localization"
+      - name: zona_horaria
+        data_type: varchar
+        description: "Time zone of the localization"
+      - name: tz_timezone
+        data_type: varchar
+        description: "Time zone abbreviation of the localization"
+      - name: type
+        data_type: varchar
+        description: "Type of localization"
+      - name: source
+        data_type: varchar
+        description: "Source of localization data"
+      - name: _fivetran_synced
+        data_type: timestamp_ntz
+        description: "Timestamp of last sync from Fivetran"
+      - name: _fivetran_deleted
+        data_type: boolean
+
+  - name: fct_routes
+    description: "Fact table for flight routes"
+    columns:
+      - name: route_id
+        data_type: varchar
+        description: "Unique identifier for the flight route"
+        tests:
+          - not_null
+          - unique
+
+      - name: airline_key
+        data_type: varchar
+        description: "Foreign key to the airline dimension table"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_airlines')
+              field: airline_id
+
+      - name: origin_airport_key
+        data_type: varchar
+        description: "Foreign key to the origin airport "
+        tests:
+          - not_null
+
+
+      - name: dest_airport_key
+        data_type: varchar
+        description: "Foreign key to the destination airport dimension table"
+        tests:
+          - not_null
+
+
+      - name: origin_country_key
+        data_type: varchar
+        description: "Foreign key to the origin country table"
+        tests:
+          - not_null
+
+
+      - name: dest_country_key
+        data_type: varchar
+        description: "Foreign key to the destination country table"
+        tests:
+          - not_null
+
+
+      - name: plane_model_key
+        data_type: varchar
+        description: "Foreign key to the plane model dimension table"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('base_plane_models')
+              field: plane_model_id
+
+      - name: year
+        data_type: number
+        description: "Year of the flight route"
+        tests:
+          - not_null
+
+      - name: quarter
+        data_type: number
+        description: "Quarter of the flight route"
+        tests:
+          - not_null
+
+      - name: month
+        data_type: number
+        description: "Month of the flight route"
+        tests:
+          - not_null
+
+      - name: seats
+        data_type: number
+        description: "Number of seats on the flight route"
+        tests:
+          - not_null
+
+      - name: passengers
+        data_type: number
+        description: "Number of passengers on the flight route"
+        tests:
+          - not_null
+
+      - name: distance
+        data_type: number
+        description: "Distance of the flight route"
+        tests:
+          - not_null
+
+      - name: load_factor
+        data_type: number
+        description: "Load factor of the flight route"
+        tests:
+          - not_null
+
+      - name: distance_per_passenger
+        data_type: number
+        description: "Distance per passenger on the flight route"
+        tests:
+          - not_null
+      
+      - name: _fivetran_synced
+        data_type: timestamp_ntz
+        description: "Timestamp of last sync from Fivetran"
+      
+      - name: _fivetran_deleted
+        data_type: boolean
+
+  - name: dim_city_pair_route
+    description: "Dimension table for city pair routes"
+    columns:
+      - name: city_pair_id
+        data_type: varchar
+        description: "Unique identifier for the city pair route"
+        tests:
+          - unique
+          - not_null
+
+      - name: non_directional_route
+        data_type: varchar
+        description: "Non-directional route identifier (e.g. LAX-SFO)"
+
+      - name: directional_route
+        data_type: varchar
+        description: "Directional route identifier (e.g. LAX to SFO)"
+
+      - name: origin_airport_iata
+        data_type: varchar
+        description: "IATA code for the origin airport"
+
+      - name: dest_airport_iata
+        data_type: varchar
+        description: "IATA code for the destination airport"
+
+      - name: distance
+        data_type: number
+        description: "Distance between the origin and destination airports in miles"
+
+      - name: _fivetran_synced
+        data_type: timestamp_tz
+        description: "Timestamp when the record was last synced by Fivetran"
+
+      - name: _fivetran_deleted
+        data_type: boolean
+        description: "Flag indicating if the record was deleted in the source system"
