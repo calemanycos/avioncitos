@@ -51,7 +51,7 @@ models:
         tests:
           - not_null
 
-      - name: city
+      - name: airport_city
         data_type: varchar
         description: "City where the airport is located."
         tests:
@@ -140,7 +140,7 @@ models:
           - unique
           - not_null
 
-      - name: iata_country
+      - name: country_iata
         data_type: varchar
         description: "IATA code for the country."
         tests:

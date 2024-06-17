@@ -1,0 +1,32 @@
+version: 2
+
+models:
+  - name: int_city_pair_route
+    description: "Intermediate city pair routes"
+    columns:
+      - name: city_pair_id
+        data_type: varchar
+        description: "Unique identifier for the city pair route"
+        tests:
+          - not_null
+          - unique
+
+      - name: non_directional_route
+        data_type: varchar
+        description: "Non-directional route identifier (e.g. LAX-SFO)"
+
+      - name: directional_route
+        data_type: varchar
+        description: "Directional route identifier (e.g. LAX to SFO)"
+
+      - name: origin_airport_iata
+        data_type: varchar
+        description: "IATA code for the origin airport"
+
+      - name: dest_airport_iata
+        data_type: varchar
+        description: "IATA code for the destination airport"
+
+      - name: distance
+        data_type: number
+        description: "Distance between the origin and destination airports in miles"

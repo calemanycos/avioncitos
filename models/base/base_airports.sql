@@ -1,4 +1,7 @@
-{{ config(materialized="table") }}
+{{ config(materialized="incremental",  unique_key=['airport_id'],
+        tags=['incremental']) 
+
+ }}
 
 with
     source as (select * from {{ source("SNOWFLAKE_DB_OPENFLIGHTS", "airports") }}),
@@ -8,7 +11,7 @@ with
         select
              {{ dbt_utils.generate_surrogate_key(["airport_id","Iata","icao"]) }} AS airport_id,
             trim(airport_name) as airport_name,
-            trim(city) as city,
+            trim(city) as airport_city,
             trim(country) as country_name,
             coalesce(iata,'Unknown') as airport_iata,
             coalesce(icao,'Unknown') as airport_icao,
@@ -29,3 +32,8 @@ with
 
 select *
 from renamed
+{% if is_incremental() %}
+
+  where _fivetran_synced > (select max(_fivetran_synced) from {{ this }})
+
+{% endif %}

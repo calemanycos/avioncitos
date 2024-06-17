@@ -1,15 +1,37 @@
-{{ config(materialized="table") }}
+{{ config(materialized="incremental",  unique_key=['localization_id'],
+        tags=['incremental']
+) }}
 
-select
-    base_airports.airport_id,
-    base_airports.airport_iata as airport_iata,
-    base_airports.airport_icao as airport_icao,
-    base_airports.airport_name,
-    base_airports.city as airport_city,
-    base_countries.country_id as country_id,
-    base_countries.iata_country as country_iata,
-    base_countries.country_name as country_name
-
-from {{ ref("base_airports") }} as base_airports
-join {{ ref("base_countries") }} as base_countries
-on base_airports.country_name = base_countries.country_name
+with max_synced as (
+  select 
+    a.airport_id,
+    a.airport_iata,
+    a.airport_icao,
+    a.airport_name,
+    a.airport_city,
+    l.country_id,
+    l.country_iata,
+    l.country_name,
+    a._fivetran_synced,
+    a._fivetran_deleted,
+    max(a._fivetran_synced) over () as max_synced
+  from {{ ref("base_airports") }} a
+  inner join {{ ref("base_countries") }} l
+  on a.country_name = l.country_name
+)
+select 
+  {{      dbt_utils.generate_surrogate_key(["airport_id", "airport_iata","airport_icao","country_iata","country_id","airport_city"])}} as localization_id,
+  airport_id,
+  airport_iata,
+  airport_icao,
+  airport_name,
+  airport_city,
+  country_id,
+  country_iata,
+  country_name,
+  _fivetran_synced,
+  _fivetran_deleted
+from max_synced
+{% if is_incremental() %}
+  where _fivetran_synced > max_synced
+{% endif %}

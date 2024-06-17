@@ -7,6 +7,12 @@ models:
       - name: airline_id
         data_type: varchar
         description: "Unique identifier for the airline."
+        tests:
+          - relationships:
+                  to: ref('base_airlines')
+                  field: airline_id
+          - unique
+          - not_null
 
       - name: airline_iata
         data_type: varchar
@@ -30,12 +36,18 @@ models:
       - name: airport_id
         data_type: varchar
         description: "Unique identifier for the airport."
+        tests:
+          - relationships:
+                  to: ref('base_airports')
+                  field: airport_id
+          - unique
+          - not_null
 
       - name: airport_name
         data_type: varchar
         description: "Name of the airport."
 
-      - name: city
+      - name: airport_city
         data_type: varchar
         description: "City where the airport is located."
 
@@ -97,6 +109,12 @@ models:
       - name: country_id
         data_type: varchar
         description: "Unique identifier for the country."
+        tests:
+          - relationships:
+                  to: ref('base_countries')
+                  field: country_id
+          - unique
+          - not_null
 
       - name: iata_country
         data_type: varchar
@@ -120,7 +138,15 @@ models:
       - name: airport_id
         data_type: varchar
         description: "Unique identifier for the airport."
-
+        tests:
+          - unique
+          - not_null
+      - name: localization_id
+        data_type: varchar
+        description: "Unique identifier for the location."
+        tests:
+          -  unique
+          - not_null 
       - name: airport_iata
         data_type: varchar
         description: "IATA code for the airport."

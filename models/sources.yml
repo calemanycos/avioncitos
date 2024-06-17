@@ -2,7 +2,7 @@ version: 2
 
 sources:
   - name: SNOWFLAKE_DB_OPENFLIGHTS
-    database: A_VIONCITOS_BRONZE
+    database: A_VIONCITOS_BRONZE_DB
     tables:
       - name: airlines
       - name: airports
