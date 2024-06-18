@@ -190,6 +190,12 @@ models:
               to: ref('base_plane_models')
               field: plane_model_id
 
+      - name: city_pair_route_key
+        data_type: varchar
+        description: "Foreign key to city_pair dimension table"
+        tests:
+          - not_null
+
       - name: year
         data_type: number
         description: "Year of the flight route"
