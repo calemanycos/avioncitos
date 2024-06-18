@@ -35,33 +35,57 @@ clean-targets: # directories to be removed by `dbt clean`
 
 models:
   avioncitos:
+
+    sources:
+      +docs:
+          node_color: "#CD7F32"
+      tags: ['sources']
     # Applies to all files under models/example/
     base:
       +materialized: incremental
       +database: "{{ env_var('DBT_ENVIRONMENTS') }}SILVER_DB"
       +schema: base
+      +docs:
+            node_color: "#71706e"
+      tags: ['Bases']
 
     staging:
       +materialized: incremental
       +database: "{{ env_var('DBT_ENVIRONMENTS') }}SILVER_DB"
       +schema: stg
+      +docs:
+            node_color: "#71706e"
+      tags: ['stagings']
+
 
     # Configuración específica para 'marts'
     marts:
+      +schema: marts
       +materialized: incremental
       +database: "{{ env_var('DBT_ENVIRONMENTS') }}GOLD_DB"
-
+      +docs:
+          node_color: "#aa6c39"
+      tags: ['datamart']
       # Configuración específica para 'core'
       core:
         +schema: core
         +database: "{{ env_var('DBT_ENVIRONMENTS') }}GOLD_DB"
+        +docs:
+          node_color: "#aa6c39"
+        tags: ['cores']
         int:
           +schema: intermediate
           +database: "{{ env_var('DBT_ENVIRONMENTS') }}GOLD_DB"
+          +docs:
+            node_color: "#aa6c39"
+          tags: ['intermediate']
 
 seeds:
   +schema: seed_data
   +database: "{{ env_var('DBT_ENVIRONMENTS') }}BRONZE_DB"
+  +docs:
+      node_color: "#CD7F32"
+  tags: ['sources']
 
 snapshots:
   +transient: false

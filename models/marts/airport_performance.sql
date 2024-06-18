@@ -14,7 +14,7 @@ SELECT
   f._fivetran_deleted
 FROM 
   {{ ref('fct_routes') }} f
-  LEFT JOIN {{ ref('dim_airports') }} a ON f.origin_airport_key = a.airport_id
+  inner JOIN {{ ref('dim_airports') }} a ON f.origin_airport_key = a.airport_id
     where f._fivetran_deleted = null
 GROUP BY 
   a.airport_iata, a.airport_name,f._fivetran_synced,f._fivetran_deleted

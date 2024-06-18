@@ -14,7 +14,7 @@ with
             _fivetran_deleted
 
         from base
-        where _fivetran_deleted = 'false'
+        where _fivetran_deleted = false
     )
 
 select *
