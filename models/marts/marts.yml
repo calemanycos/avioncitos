@@ -1,0 +1,198 @@
+version: 2
+
+models:
+  - name: airline_performance
+    description: "Airline performance metrics"
+    columns:
+      - name: airline_iata
+        data_type: varchar
+        description: "Airline IATA code"
+        tests:
+          - not_null
+
+      - name: airline_name
+        data_type: varchar
+        description: "Airline name"
+
+      - name: num_flights
+        data_type: number
+        description: "Number of flights"
+
+      - name: avg_seats
+        data_type: number
+        description: "Average number of seats per flight"
+
+      - name: avg_passengers
+        data_type: number
+        description: "Average number of passengers per flight"
+
+      - name: avg_distance
+        data_type: number
+        description: "Average distance per flight"
+
+      - name: avg_load_factor
+        data_type: number
+        description: "Average load factor per flight"
+
+      - name: avg_distance_per_passenger
+        data_type: number
+        description: "Average distance per passenger"
+
+      - name: _fivetran_deleted
+        data_type: boolean
+        description: "Deleted flag"
+
+      - name: _fivetran_synced
+        data_type: timestamp_tz
+        description: "Sync timestamp"
+        tests:
+          - not_null
+
+  - name: airport_performance
+    description: "Airport performance metrics"
+    columns:
+      - name: airport_iata
+        data_type: varchar
+        description: "Airport IATA code"
+        tests:
+          - not_null
+
+      - name: airport_name
+        data_type: varchar
+        description: "Airport name"
+
+      - name: num_flights
+        data_type: number
+        description: "Number of flights"
+
+      - name: avg_seats
+        data_type: number
+        description: "Average number of seats per flight"
+
+      - name: avg_passengers
+        data_type: number
+        description: "Average number of passengers per flight"
+
+      - name: avg_distance
+        data_type: number
+        description: "Average distance per flight"
+
+      - name: avg_load_factor
+        data_type: number
+        description: "Average load factor per flight"
+
+      - name: avg_distance_per_passenger
+        data_type: number
+        description: "Average distance per passenger"
+
+      - name: _fivetran_synced
+        data_type: timestamp_tz
+        description: "Sync timestamp"
+        tests:
+          - not_null
+
+      - name: _fivetran_deleted
+        data_type: boolean
+        description: "Deleted flag"
+
+  - name: plane_model_performance
+    description: "Plane model performance metrics"
+    columns:
+      - name: plane_model_id
+        data_type: varchar
+        description: "Plane model ID"
+        tests:
+          - not_null
+
+      - name: plane_model_code
+        data_type: number
+        description: "Plane model code"
+
+      - name: plane_model_description
+        data_type: varchar
+        description: "Plane model description"
+
+      - name: num_flights
+        data_type: number
+        description: "Number of flights"
+
+      - name: avg_seats
+        data_type: number
+        description: "Average number of seats per flight"
+
+      - name: avg_passengers
+        data_type: number
+        description: "Average number of passengers per flight"
+
+      - name: avg_distance
+        data_type: number
+        description: "Average distance per flight"
+
+      - name: avg_load_factor
+        data_type: number
+        description: "Average load factor per flight"
+
+      - name: avg_distance_per_passenger
+        data_type: number
+        description: "Average distance per passenger"
+
+      - name: _fivetran_synced
+        data_type: timestamp_tz
+        description: "Sync timestamp"
+        tests:
+          - not_null
+
+      - name: _fivetran_deleted
+        data_type: boolean
+        description: "Deleted flag"
+
+  - name: plane_model_by_airline
+    description: "Plane model performance by airline"
+    columns:
+      - name: airline_id
+        data_type: varchar
+        description: "Airline ID"
+        tests:
+          - not_null
+
+      - name: airline_iata
+        data_type: varchar
+        description: "Airline IATA code"
+
+      - name: airline_name
+        data_type: varchar
+        description: "Airline name"
+
+      - name: plane_model_code
+        data_type: number
+        description: "Plane model code"
+
+      - name: plane_model_description
+        data_type: varchar
+        description: "Plane model description"
+
+      - name: num_unique_routes_by_airline
+        data_type: number
+        description: "Number of unique routes by airline"
+
+      - name: num_unique_routes_by_airline_model
+        data_type: number
+        description: "Number of unique routes by airline and model"
+
+      - name: total_seats
+        data_type: number
+        description: "Total seats"
+
+      - name: avg_load_factor
+        data_type: number
+        description: "Average load factor"
+
+      - name: _fivetran_synced
+        data_type: timestamp_tz
+        description: "Sync timestamp"
+        tests:
+          - not_null
+
+      - name: _fivetran_deleted
+        data_type: boolean
+        description: "Deleted flag"

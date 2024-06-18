@@ -30,6 +30,6 @@ where r._fivetran_deleted = false
 
 {% if is_incremental() %}
 
-  where r._fivetran_synced > (select max(r._fivetran_synced) from {{ this }})
+  and r._fivetran_synced > (select max(r._fivetran_synced) from {{ this }})
 
 {% endif %}

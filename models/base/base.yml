@@ -198,68 +198,98 @@ models:
         tests:
           - not_null
 
+
   - name: base_routes
-    description: "This model contains information about different routes flown by airlines."
+    description: "This table contains information about airline routes, including details about the airlines, airports, aircraft, and passenger volumes."
+
     columns:
       - name: route_id
         data_type: varchar
-        description: "Unique identifier for the route."
+        description: "A unique identifier for each route."
         tests:
+          - unique
           - not_null
-          - unique 
+
       - name: seats
         data_type: number
-        description: "Number of seats available on the route."
-        tests:
-          - not_null
+        description: "The total number of seats available on the aircraft for the route."
 
       - name: passengers
         data_type: number
-        description: "Number of passengers on the route."
-        tests:
-          - not_null
+        description: "The number of passengers that flew on the route."
 
       - name: distance
         data_type: number
-        description: "Distance of the route."
-        tests:
-          - not_null
+        description: "The distance between the origin and destination airports for the route, measured in miles or kilometers."
+
       - name: airline_iata
         data_type: varchar
-        description: "IATA code of the airline operating the route."
+        description: "The International Air Transport Association (IATA) code for the airline operating the route."
         tests:
           - not_null
 
       - name: airline_name
         data_type: varchar
-        description: "Name of the airline operating the route."
+        description: "The name of the airline operating the route."
 
       - name: origin_airport_iata
         data_type: varchar
-        description: "IATA code of the origin airport."
+        description: "The IATA code for the origin airport of the route."
         tests:
           - not_null
 
       - name: origin_city_name
         data_type: varchar
-        description: "Name of the origin city."
-        tests:
-          - not_null
+        description: "The name of the city where the origin airport is located."
 
       - name: origin_country_iata
         data_type: varchar
-        description: "IATA code of the origin country."
+        description: "The IATA code for the country where the origin airport is located."
         tests:
           - not_null
 
       - name: origin_country_name
         data_type: varchar
-        description: "Name of the origin country."
-        tests:
-          - not_null
+        description: "The name of the country where the origin airport is located."
 
       - name: dest_airport_iata
         data_type: varchar
-        description: "IATA code of the destination airport."
-        tests: 
+        description: "The IATA code for the destination airport of the route."
+        tests:
           - not_null
+
+      - name: dest_city_name
+        data_type: varchar
+        description: "The name of the city where the destination airport is located."
+
+      - name: dest_country_iata
+        data_type: varchar
+        description: "The IATA code for the country where the destination airport is located."
+
+      - name: dest_country_name
+        data_type: varchar
+        description: "The name of the country where the destination airport is located."
+
+      - name: aircraft_type
+        data_type: number
+        description: "The type of aircraft used for the route, such as Boeing 737 or Airbus A320."
+
+      - name: year
+        data_type: number
+        description: "The year in which the data was collected."
+
+      - name: quarter
+        data_type: number
+        description: "The quarter of the year in which the data was collected, ranging from 1 to 4."
+
+      - name: month
+        data_type: number
+        description: "The month in which the data was collected, ranging from 1 to 12."
+
+      - name: _fivetran_synced
+        data_type: timestamp_tz
+        description: "The timestamp indicating when the data was last synced from the source system."
+
+      - name: _fivetran_deleted
+        data_type: boolean
+        description: "A boolean value indicating whether the data has been deleted from the source system."

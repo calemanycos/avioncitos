@@ -26,7 +26,7 @@ with
             cast(_fivetran_synced as timestamp) as _fivetran_synced,
             cast(_fivetran_deleted as boolean) as _fivetran_deleted
         from source
-       
+       where _fivetran_deleted = false
 
     )
 
