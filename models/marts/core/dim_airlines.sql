@@ -9,8 +9,10 @@ select
     _fivetran_deleted
 from {{ ref("stg_airlines") }}
 
+where _fivetran_deleted = false
+
 {% if is_incremental() %}
 
-  where _fivetran_synced > (select max(_fivetran_synced) from {{ this }})
+  and _fivetran_synced > (select max(_fivetran_synced) from {{ this }})
 
 {% endif %}
